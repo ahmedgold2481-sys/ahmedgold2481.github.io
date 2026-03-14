@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Mohamed & Ahmed Jewelry</title>
+  <style>
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+
+    html, body {
+      margin: 0;
+      padding: 0;
+      font-family: Tahoma, Arial, sans-serif;
+      background: #000;
+      color: #fff6dc;
+    }
+
+    .hidden { display: none !important; }
+
+    #landing {
+      background: #000;
+      width: 100%;
+    }
+
+    .hero-card {
+      position: relative;
+      width: 100%;
+      max-width: 900px;
+      margin: auto;
+      overflow: hidden;
+      background: #000;
+    }
+
+    .hero-image {
+      width: 100%;
+      display: block;
+      transform-origin: center center;
+      will-change: transform, filter;
+      min-height: 220px;
+      object-fit: cover;
+      background: #111;
+    }
+
+    .hero-overlay-flash {
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle, rgba(255,220,120,.28) 0%, rgba(255,220,120,0) 60%);
+      opacity: 0;
+      pointer-events: none;
+      z-index: 3;
+    }
+
+    .side-gold-btn {
+      position: absolute;
+      right: 8%;
+      top: 68%;
+      width: 17%;
+      min-width: 74px;
+      aspect-ratio: 1 / 1;
+      border-radius: 50%;
+      background: linear-gradient(180deg, #9b6a12, #5f3f09);
+      border: 3px solid #d9b25c;
+      color: #ffe7a3;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      font-size: 13px;
+      font-weight: bold;
+      line-height: 1.35;
+      box-shadow: 0 8px 18px rgba(0,0,0,.35);
+      z-index: 5;
+      padding: 8px;
+      cursor: pointer;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    .hint {
+      width: fit-content;
+      max-width: 92%;
+      margin: 14px auto 22px;
+      background: rgba(0,0,0,.55);
+      color: #fff0bf;
+      border: 1px solid rgba(255,220,130,.35);
+      border-radius: 999px;
+      padding: 12px 18px;
+      font-size: 15px;
+      text-align: center;
+    }
+
+    #prices {
+      min-height: 100vh;
+      background:
+        linear-gradient(rgba(0,0,0,.22), rgba(0,0,0,.38)),
+        linear-gradient(180deg, #2a1b05, #000000);
+      padding: 18px 12px 120px;
+    }
+
+    .container {
+      width: min(950px, 100%);
+      margin: auto;
+    }
+
+    .top-brand {
+      text-align: center;
+      margin: 8px 0 18px;
+      text-shadow: 0 2px 10px rgba(0,0,0,.35);
+    }
+
+    .top-brand h1 {
+      margin: 0;
+      color: #ffe39a;
+      font-size: clamp(28px, 7vw, 58px);
+    }
+
+    .top-brand p {
+      margin: 8px 0 0;
+      color: #fff2c8;
+      font-weight: bold;
+      font-size: clamp(14px, 3vw, 22px);
+      letter-spacing: 1px;
+    }
+
+    .info-box {
+      background: rgba(25,18,7,.82);
+      border: 1px solid rgba(255,220,130,.35);
+      border-radius: 18px;
+      padding: 12px;
+      margin-bottom: 16px;
+      text-align: center;
+      line-height: 1.8;
+      box-shadow: 0 10px 24px rgba(0,0,0,.25);
+    }
+
+    .table-wrap {
+      overflow: hidden;
+      border-radius: 24px;
+      border: 2px solid rgba(255,223,130,.58);
+      background: rgba(42,28,9,.72);
+      box-shadow: 0 15px 35px rgba(0,0,0,.35);
+    }
+
+    .table-header, .row {
+      display: grid;
+      grid-template-columns: 1.1fr 1fr 1fr;
+      align-items: stretch;
+    }
+
+    .table-header {
+      background: linear-gradient(180deg, #f4d374, #b57d19);
+      color: #251603;
+      font-weight: 800;
+      font-size: clamp(20px, 5vw, 34px);
+    }
+
+    .cell {
+      padding: 18px 12px;
+      text-align: center;
+      border-inline-start: 1px solid rgba(126,81,10,.28);
+    }
+
+    .table-header .cell:first-child,
+    .row .cell:first-child {
+      border-inline-start: none;
+    }
+
+    .row {
+      border-top: 1px solid rgba(201,154,46,.35);
+      color: #231403;
+      font-size: clamp(18px, 5vw, 30px);
+      font-weight: bold;
+    }
+
+    .row .karat, .row .buy { background: rgba(255,248,231,.92); }
+    .row .sell { background: rgba(250,233,177,.92); }
+
+    .row.highlight .karat,
+    .row.highlight .buy,
+    .row.highlight .sell {
+      background: linear-gradient(180deg, #f9df73, #d99716);
+      color: #201200;
+    }
+
+    .value {
+      direction: ltr;
+      display: inline-block;
+      min-width: 100px;
+    }
+
+    .admin-toggle {
+      position: fixed;
+      left: 14px;
+      bottom: 14px;
+      z-index: 20;
+      border: none;
+      border-radius: 999px;
+      padding: 12px 16px;
+      background: linear-gradient(180deg, #f7de84, #b98721);
+      color: #211403;
+      font-weight: bold;
+      cursor: pointer;
+      box-shadow: 0 10px 22px rgba(0,0,0,.28);
+    }
+
+    .hero-image.animate-roar { animation: tigerRoarMove .9s ease forwards; }
+    .hero-overlay-flash.animate-flash { animation: goldFlash .9s ease forwards; }
+
+    @keyframes tigerRoarMove {
+      0% { transform: scale(1) translateX(0) translateY(0); filter: brightness(1); }
+      10% { transform: scale(1.015) translateX(-3px); }
+      20% { transform: scale(1.03) translateX(4px); }
+      30% { transform: scale(1.04) translateX(-5px); }
+      40% { transform: scale(1.05) translateX(4px); }
+      55% { transform: scale(1.045) translateY(-2px); }
+      70% { transform: scale(1.03) translateX(-2px); }
+      100% { transform: scale(1) translateX(0) translateY(0); filter: brightness(1.08); }
+    }
+
+    @keyframes goldFlash {
+      0% { opacity: 0; }
+      20% { opacity: .55; }
+      50% { opacity: .25; }
+      100% { opacity: 0; }
+    }
+
+    @media (min-width: 768px) {
+      .side-gold-btn {
+        right: 9%;
+        top: 68%;
+        width: 13%;
+        font-size: 14px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <audio id="roarAudio" preload="auto">
+    <source src="roar.mp3" type="audio/mpeg">
+  </audio>
+
+  <section id="landing">
+    <div class="hero-card">
+      <img src="tiger.jpg" alt="واجهة الفهد الذهبي" class="hero-image" id="heroImage">
+      <div class="hero-overlay-flash" id="heroFlash"></div>
+
+      <button type="button" class="side-gold-btn" onclick="openPrices(event)">
+        عرض<br>السعر
+      </button>
+    </div>
+
+    <div class="hint">اضغط على الزر الذهبي بجانب السبيكة للانتقال إلى جدول الأسعار</div>
+  </section>
+
+  <section id="prices">
+    <div class="container">
+      <div class="top-brand">
+        <h1>جدول أسعار الذهب اليوم</h1>
+        <p>MOHAMED &amp; AHMED JEWELRY</p>
+      </div>
+
+      <div class="info-box">
+        <div>آخر تحديث: <span id="lastUpdate">--</span></div>
+        <div>المصدر: <span id="sourceLabel">يدوي / محلي</span></div>
+      </div>
+
+      <div class="table-wrap">
+        <div class="table-header">
+          <div class="cell">العيار</div>
+          <div class="cell">شراء (جنيه)</div>
+          <div class="cell">بيع (جنيه)</div>
+        </div>
+
+        <div class="row">
+          <div class="cell karat">24</div>
+          <div class="cell buy"><span id="buy24" class="value">5400.00</span></div>
+          <div class="cell sell"><span id="sell24" class="value">5415.00</span></div>
+        </div>
+
+        <div class="row highlight">
+          <div class="cell karat">21</div>
+          <div class="cell buy"><span id="buy21" class="value">4725.00</span></div>
+          <div class="cell sell"><span id="sell21" class="value">4738.13</span></div>
+        </div>
+
+        <div class="row">
+          <div class="cell karat">18</div>
+          <div class="cell buy"><span id="buy18" class="value">4050.00</span></div>
+          <div class="cell sell"><span id="sell18" class="value">4061.25</span></div>
+        </div>
+
+        <div class="row">
+          <div class="cell karat">14</div>
+          <div class="cell buy"><span id="buy14" class="value">3150.00</span></div>
+          <div class="cell sell"><span id="sell14" class="value">3158.75</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <button class="admin-toggle">لوحة المدير</button>
+
+  <script>
+    const roarAudio = document.getElementById("roarAudio");
+    const heroImage = document.getElementById("heroImage");
+    const heroFlash = document.getElementById("heroFlash");
+    const pricesSection = document.getElementById("prices");
+    const lastUpdate = document.getElementById("lastUpdate");
+
+    function openPrices(event) {
+      if (event) event.preventDefault();
+
+      lastUpdate.textContent = new Date().toLocaleString("ar-EG");
+
+      heroImage.classList.remove("animate-roar");
+      heroFlash.classList.remove("animate-flash");
+
+      void heroImage.offsetWidth;
+      void heroFlash.offsetWidth;
+
+      heroImage.classList.add("animate-roar");
+      heroFlash.classList.add("animate-flash");
+
+      try {
+        roarAudio.currentTime = 0;
+        roarAudio.play();
+      } catch (e) {}
+
+      setTimeout(() => {
+        pricesSection.scrollIntoView({ behavior: "smooth", block: "start" });
+      }, 700);
+    }
+
+    lastUpdate.textContent = new Date().toLocaleString("ar-EG");
+  </script>
+</body>
+</html>
